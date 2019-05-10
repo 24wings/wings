@@ -1,0 +1,32 @@
+<header>
+    <dx-toolbar class="header-toolbar">
+        <dxi-item *ngIf="menuToggleEnabled" location="before" widget="dxButton" cssClass="menu-button" [options]="{
+                icon: 'menu',
+                stylingMode: 'text',
+                onClick: toggleMenu
+            }">
+        </dxi-item>
+        <dxi-item location="before" cssClass="header-title" *ngIf="title" [text]="title">
+        </dxi-item>
+        <dxi-item location="after" locateInMenu="auto" menuItemTemplate="menuItem">
+            <div *dxTemplate="let data of 'item'">
+                <dx-button class="user-button authorization" width="170px" height="100%" stylingMode="text">
+                    <div *dxTemplate="let data of 'content'">
+                        <app-user-panel [menuItems]="userMenuItems" menuMode="context"></app-user-panel>
+                    </div>
+                </dx-button>
+            </div>
+        </dxi-item>
+        <div *dxTemplate="let data of 'menuItem'">
+            <app-user-panel [menuItems]="userMenuItems" menuMode="list"></app-user-panel>
+        </div>
+    </dx-toolbar>
+</header>
+<dx-popup class="popup" [width]="300" [height]="250" [showTitle]="true" title="选择主题" [dragEnabled]="false"
+    [closeOnOutsideClick]="true" [(visible)]="selectThemePanelVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-select-box [dataSource]="themes" valueExpr="name" (valueChange)="updateTheme($event)"
+            [value]="selectedTheme" [grouped]="true" displayExpr="name">
+        </dx-select-box>
+    </div>
+</dx-popup>

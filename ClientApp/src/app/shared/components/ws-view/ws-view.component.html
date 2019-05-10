@@ -1,0 +1,78 @@
+<!-- <div *dynamicComponent="template; context: bindings"></div> -->
+<!-- {{ v.viewType }} -->
+
+<ws-search-bar [item]="item"></ws-search-bar>
+<ws-editor [view]="v" (onCreateSuccess)="onCreateSuccess()" [(mode)]="mode" style="width:80vw"></ws-editor>
+
+<div style="text-align:right;margin-bottom:20px;margin-top:20px;display:flex;justify-content: space-between;"
+  *ngIf="mode == 'List'">
+  <dx-button text="新建" *ngIf="v.add!=false" (onClick)="openNewModal()" [width]="40" style="margin-right:20px">
+  </dx-button>
+  <!-- <dx-button text="编辑" (onClick)="openUpdateModel($event)" [width]="40" style="margin-right:20px" -->
+  <!-- [disabled]="selectedRows.length != 1"></dx-button> -->
+  <!-- <dx-button text="详情" (onClick)="openNewModal($event)" [width]="40" style="margin-right:20px"></dx-button> -->
+  <dx-button text="删除" (onClick)="deleteSelected($event)" [width]="40" type="danger" [stylingMode]="'outlined'">
+  </dx-button>
+  <!-- </dx-button> -->
+</div>
+<div [class.hide]="mode != 'List'">
+  <dx-data-grid *ngIf="v.viewType == 'Table'" [dataSource]="dataSource" [showBorders]="true" mode="multiple"
+    [selectedRowKeys]="selectedRowKeys" (selectedRowKeysChange)="setSelectRowKeys($event)">
+    <dxo-selection [selectAllMode]="'page'" mode="multiple"></dxo-selection>
+
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+    </dxo-pager>
+    <dxo-remote-operations [filtering]="true" [sorting]="true" [grouping]="true"></dxo-remote-operations>
+    <ng-container *ngFor="let col of columns">
+
+
+      <dxi-column [caption]="col.caption" [calculateDisplayValue]="col.calculateDisplayValue"
+        [dataField]="col.dataField" [dataType]="col.dataType" [cellTemplate]="col.cellTemplate">
+        <dxo-lookup *ngIf="col.lookup" [dataSource]="col.lookup.dataSource" [displayExpr]="'label'"
+          [valueExpr]="'value'">
+
+        </dxo-lookup>
+      </dxi-column>
+
+      <div *dxTemplate="let data of 'Picture'">
+        <img [src]="data.value" style="    max-width: 50px;max-height: 50px;" />
+      </div>
+    </ng-container>
+
+
+    <dxi-column type="buttons" [width]="110">
+      <dxi-button icon="edit" [onClick]="edit"></dxi-button>
+
+      <dxi-button name="delete"></dxi-button>
+    </dxi-column>
+    <dxi-column type="buttons">
+      <dxi-button hint="video" icon="video" [text]="'切换'" [onClick]="doAction" name="change"></dxi-button>
+    </dxi-column>
+    <dxo-editing mode="row" [allowDeleting]="true" [useIcons]="true"></dxo-editing>
+  </dx-data-grid>
+
+  <dx-tree-list *ngIf="v.viewType == 'TreeList'" [dataSource]="dataSource" [keyExpr]="v.keyExpr"
+    [parentIdExpr]="v.parentIdExpr" [columnAutoWidth]="true" [wordWrapEnabled]="true" [showBorders]="true"
+    [columns]="columns" [(selectedRowKeys)]="selectedRowKeys">
+    <dxo-selection mode="multiple" [recursive]="recursiveSelectionEnabled">
+    </dxo-selection>
+    <!-- <dxo-search-panel [visible]="true" width="250"></dxo-search-panel> -->
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <!-- <dxo-selection mode="multiple"></dxo-selection> -->
+    <!-- <dxo-column-chooser [enabled]="true"></dxo-column-chooser> -->
+    <dxo-editing [allowDeleting]="true"></dxo-editing>
+
+    <dxi-column *ngFor="let col of columns" [caption]="col.caption" [calculateDisplayValue]="col.calculateDisplayValue"
+      [dataField]="col.dataField" [dataType]="col.dataType"></dxi-column>
+    <dxi-column type="buttons" [width]="110">
+      <dxi-button icon="add" [onClick]="add"></dxi-button>
+      <dxi-button icon="edit" [onClick]="edit"></dxi-button>
+
+      <dxi-button name="delete"></dxi-button>
+    </dxi-column>
+  </dx-tree-list>
+</div>

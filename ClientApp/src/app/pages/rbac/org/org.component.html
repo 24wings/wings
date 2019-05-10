@@ -1,0 +1,15 @@
+<dx-tree-list id="orgs" [dataSource]="orgDataSource" keyExpr="orgId" parentIdExpr="parentId" style="width:100%;"
+    [columnAutoWidth]="true" [showBorders]="true">
+
+    <dxo-search-panel [visible]="true" width="250"></dxo-search-panel>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+
+    <dxi-column dataField="orgName" [width]="300" caption="组织名字"></dxi-column>
+    <dxi-column dataField="createTime" [width]="300" [dataType]="'date'" caption="创建时间"></dxi-column>
+
+    <dxi-column dataField="userNum" [width]="300" caption="组织人数"></dxi-column>
+    <dxi-column dataField="roleNum" [width]="300" caption="角色数"></dxi-column>
+
+</dx-tree-list>

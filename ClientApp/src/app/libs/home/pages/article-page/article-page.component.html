@@ -1,0 +1,114 @@
+<ng-container *ngIf="state==View.View">
+
+
+    <div>
+        <div class="markdown-body typo">
+            <ng-container *ngIf="articleMeta.useAudio">
+                <div class="box" style="    width: 90%;
+            height: 70px;
+            border: 2px solid #ccc;
+            overflow: hidden;
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;">
+                    <img (click)="audioEl.play()" *ngIf="audioEl.paused" style="    border-radius: 50%;"
+                        src="/assets/images/play.jpg" alt="">
+                    <img (click)="audioEl.pause()" *ngIf="!audioEl.paused" style="    border-radius: 50%;"
+                        src="/assets/images/pause.jpg" alt="">
+                    <h5 style="text-align: center">清明上河图</h5>
+                    <div class="tiao">
+                        <span>{{currentTime}}</span>
+                        <div class="tiao-box">
+                            <span class="zm"></span>
+                            <span class="fm"></span>
+                        </div>
+                        <small>{{duration}}</small>
+                    </div>
+                </div>
+            </ng-container>
+            <audio [src]="articleMeta.audioUrl" #audioEl></audio>
+        </div>
+
+    </div>
+
+
+    <!-- 文章 -->
+    <div class="markdown-body typo">
+        <div [innerHtml]="html"></div>
+    </div>
+    <div class="markdown-body typo" style="margin-top:40px">
+        <!-- 微信页脚 -->
+        <div class="wefooter" style="    display: flex;
+        justify-content: space-between;
+        padding: 20px;height: 40px">
+            <div>
+                阅读 <ng-container *ngIf="articleMeta.useRead">
+                    {{articleMeta.useReadNum}}
+                </ng-container>
+                <ng-container *ngIf="!articleMeta.useRead">
+                    {{articleMeta.readNum}}
+                </ng-container>
+            </div>
+            <div>
+                <span><img src="/assets/images/inco.jpg" alt=""></span>
+                在看<ng-container *ngIf="articleMeta.useReading">
+                    {{articleMeta.useReadingNum}}
+                </ng-container>
+                <ng-container *ngIf="!articleMeta.useReading">
+                    {{articleMeta.readingNum}}
+                </ng-container>
+            </div>
+        </div>
+        <div>
+            <div style="padding: 20px;
+            text-align: right;
+            color: rebeccapurple;
+            font-weight: 600;" (click)="startComment()"> 评论</div>
+        </div>
+        <div class="wefooter" *ngIf="articleMeta.useAddress">
+            <div class="wefooter_box">
+                <div class="lt fl">
+                    <ul>
+                        <li>
+                            <h2>{{articleMeta.addressName}}</h2>
+                        </li>
+                        <li class="dizhi"><span><img src="/assets/images/add.png" alt=""></span>{{articleMeta.address}}
+                        </li>
+                        <li><span><img src="/assets/images/tel.png" alt=""></span>全国热线：{{articleMeta.contactPhone}}
+                        </li>
+                    </ul>
+                </div>
+                <div id="container" style="    width: 100vw;
+                height: 300px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="markdown-body typo">
+        <div>阅读量</div>
+        <div><img src="/assets/icon.png" alt=""> 在读</div>
+    </div> -->
+</ng-container>
+<!-- 评论 -->
+
+<ng-container *ngIf="state==View.Comment">
+    <div class="goods-describe">
+        <div class="goods-describe-box">
+            <div id="Demo" style="text-align:center;">
+                <div class="Main">
+                    <div class="Input_Box">
+                        <textarea class="Input_text" [(ngModel)]="commentContent"
+                            placeholder="留言将由公众号筛选显示，对所有人可见"></textarea>
+                        <!-- <div class="faceDiv"> </div> -->
+                        <!-- <div class="Input_Foot"> <a class="imgBtn"></a><a class="postBtn">确定</a> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="btn" (click)="comment()">
+        发布评价
+    </div>
+</ng-container>

@@ -1,0 +1,603 @@
+@charset "utf-8";
+
+article-page{
+  width: 100vw;
+}
+/**
+ * 基于 typo.css 和 Entry.css, 感谢他们
+ * https://github.com/sofish/typo.css
+ * https://github.com/zmmbreeze/Entry.css
+ */
+
+ /* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
+ html {
+   color: #333;
+   /*background: #fff;*/ /* 复制的时候会带上这个样式, 为了不造成影响去掉这个样式 */
+   -webkit-text-size-adjust: 100%;
+       -ms-text-size-adjust: 100%;
+   text-rendering: optimizelegibility;
+ }
+ 
+ /* 内外边距通常让各个浏览器样式的表现位置不同 */
+ body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+   margin: 0;
+   padding: 0;
+ }
+ 
+ /* 要注意表单元素并不继承父级 font 的问题 */
+ body, button, input, select, textarea {
+   font-weight: 300;
+   font-size: 1em;
+   line-height: 1.8;
+ }
+ 
+ /* 去掉各Table cell 的边距并让其边重合 */
+ table {
+   border-collapse: collapse;
+   border-spacing: 0;
+ }
+ 
+ /* 去除默认边框 */
+ fieldset, img {
+   border: 0;
+ }
+ ::ng-deep .mditor{
+width: 100vw;
+ }
+ /* 块/段落引用 */
+ blockquote {
+   position: relative;
+   color: #999;
+   font-weight: 400;
+   border-left: 2px solid #c3cace;
+   padding-left: 1em;
+   margin: 1em 3em 1em 1em;
+ }
+ 
+ /* Firefox 以外，元素没有下划线，需添加 */
+ acronym, abbr {
+   border-bottom: 1px dotted;
+   font-variant: normal;
+ }
+ 
+ /* 添加鼠标问号，进一步确保应用的语义是正确的（要知道，交互他们也有洁癖，如果你不去掉，那得多花点口舌） */
+ abbr {
+   cursor: help;
+ }
+ 
+ /* 一致的 del 样式 */
+ del {
+   text-decoration: line-through;
+ }
+ 
+ address, caption, cite, code, dfn, em, th, var {
+   font-style: normal;
+   font-weight: 400;
+ }
+ 
+ /* 去掉列表前的标识, li 会继承，大部分网站通常用列表来很多内容，所以应该当去 */
+ ul, ol {
+   list-style: none;
+ }
+ 
+ /* 对齐是排版最重要的因素, 别让什么都居中 */
+ caption, th {
+   text-align: left;
+ }
+ 
+ /* 统一上标和下标 */
+ sub, sup {
+   font-size: 75%;
+   line-height: 0;
+   position: relative; 
+ }
+ 
+ :root sub, :root sup {
+   vertical-align: baseline; /* for ie9 and other modern browsers */
+ }
+ 
+ sup {
+   top: -0.5em;
+ }
+ 
+ sub {
+   bottom: -0.25em;
+ }
+ 
+ /* 让链接在 hover 状态下显示下划线 */
+ a {
+   color: #069;
+   text-decoration: none;
+   border-bottom-color: #08c;
+ }
+ 
+ a:hover {
+   border-bottom-width: 1px;
+   border-bottom-style: solid;
+ }
+ 
+ /* 默认不显示下划线，保持页面简洁 */
+ ins, a {
+   text-decoration: none;
+ }
+ 
+ /* 专名号：虽然 u 已经重回 html5 Draft，但在所有浏览器中都是可以使用的，
+  * 要做到更好，向后兼容的话，添加 class="typo-u" 来显示专名号
+  * 关于 <u> 标签：http://www.whatwg.org/specs/web-apps/current-work/multipage/text-level-semantics.html#the-u-element
+  * 被放弃的是 4，之前一直搞错 http://www.w3.org/TR/html401/appendix/changes.html#idx-deprecated
+  * 一篇关于 <u> 标签的很好文章：http://html5doctor.com/u-element/
+  */
+ u, .typo-u {
+   text-decoration: underline;
+ }
+ 
+ /* 标记，类似于手写的荧光笔的作用 */
+ mark {
+   background: #fffdd1;
+   border-bottom: 1px solid #ffedce;
+   padding: 2px;
+   margin: 0 5px;
+ }
+ 
+ /* 代码片断 */
+ pre {
+   background-color: #f8f8f8;
+   border: 1px solid #ddd;
+   padding: 1em 1.5em;
+   display: block;
+   -webkit-overflow-scrolling: touch;
+ }
+ 
+ /* 一致化 horizontal rule */
+ hr {
+   border: none;
+   border-bottom: 1px solid #cfcfcf;
+   margin-bottom: 0.8em;
+   height: 10px;
+ }
+ 
+ /* 底部印刷体、版本等标记 */
+ small, .typo-small,
+   /* 图片说明 */
+ figcaption {
+   font-size: 0.9em;
+   color: #888;
+ }
+ 
+ strong, b {
+   font-weight: bold;
+   color: #000;
+ }
+ 
+ /* 可拖动文件添加拖动手势 */
+ [draggable] {
+   cursor: move;
+ }
+ 
+ .clearfix:before, .clearfix:after {
+   content: "";
+   display: table;
+ }
+ 
+ .clearfix:after {
+   clear: both;
+ }
+ 
+ .clearfix {
+   zoom: 1;
+ }
+ 
+ /* 强制文本换行 */
+ .textwrap, .textwrap td, .textwrap th {
+   word-wrap: break-word;
+   word-break: break-all;
+ }
+ 
+ .textwrap-table {
+   table-layout: fixed;
+ }
+ 
+ .typo {
+   max-width: 640px;
+   margin-left: auto;
+   margin-right: auto;
+ }
+ 
+ /* 保证块/段落之间的空白隔行 */
+ .typo p, .typo pre, .typo ul, .typo ol, .typo dl, .typo form, .typo hr, .typo table,
+ .typo-p, .typo-pre, .typo-ul, .typo-ol, .typo-dl, .typo-form, .typo-hr, .typo-table, blockquote {
+   margin-bottom: 1.2em
+ }
+ 
+ .typo hr,
+ .typo-hr {
+   position: relative;
+   margin-top: 32px;
+   margin-bottom: 32px;
+   height: 0;
+   background: none;
+   border: none;
+   border-bottom: 2px dashed #888;
+ }
+ 
+ h1, h2, h3, h4, h5, h6 {
+   font-weight: 100;
+   color: #000;
+   line-height: 1.35;
+ }
+ 
+ /* 标题应该更贴紧内容，并与其他块区分，margin 值要相应做优化 */
+ .typo h1, .typo h2, .typo h3, .typo h4, .typo h5, .typo h6,
+ .typo-h1, .typo-h2, .typo-h3, .typo-h4, .typo-h5, .typo-h6 {
+   margin-top: 1.2em;
+   margin-bottom: 0.6em;
+   line-height: 1.35;
+ }
+ 
+ .typo h1, .typo-h1 {
+   font-size: 2em;
+ }
+ 
+ .typo h2, .typo-h2 {
+   font-size: 1.8em;
+ }
+ 
+ .typo h3, .typo-h3 {
+   font-size: 1.6em;
+ }
+ 
+ .typo h4, .typo-h4 {
+   font-size: 1.4em;
+ }
+ 
+ .typo h5, .typo h6, .typo-h5, .typo-h6 {
+   font-size: 1.2em;
+ }
+ 
+ /* 在文章中，应该还原 ul 和 ol 的样式 */
+ .typo ul, .typo-ul {
+   padding-left: 2em;
+   list-style: disc;
+ }
+ 
+ .typo ol, .typo-ol {
+   padding-left: 2em;
+   list-style: decimal;
+ }
+ 
+ .typo li ul, .typo li ol, .typo-ul ul, .typo-ul ol, .typo-ol ul, .typo-ol ol {
+   margin-bottom: 0.8em;
+ }
+ 
+ .typo li ul, .typo-ul ul, .typo-ol ul {
+   list-style: circle;
+ }
+ 
+ /* 同 ul/ol，在文章中应用 table 基本格式 */
+ .typo table th, .typo table td, .typo-table th, .typo-table td, .typo table caption {
+   border: 1px solid #ddd;
+   padding: 0.5em 1em;
+   color: #666;
+ }
+ 
+ .typo table tbody tr:nth-child(even) td,
+ .typo table tbody tr:nth-child(even) th {
+   background-color: #f9f9f9;
+ }
+ 
+ .typo table th, .typo-table th {
+   background: #fbfbfb;
+ }
+ 
+ .typo table thead th, .typo-table thead th {
+   background: #f1f1f1;
+ }
+ 
+ .typo table caption {
+   border-bottom: none;
+ }
+ 
+ /* 去除 webkit 中 input 和 textarea 的默认样式  */
+ .typo-input, .typo-textarea {
+   -webkit-appearance: none;
+   border-radius: 0;
+ }
+ 
+ .typo-em, .typo em, legend, caption {
+   color: #000;
+   font-weight: inherit;
+ }
+ 
+ /* 着重号，只能在少量（少于100个字符）且全是全角字符的情况下使用 */
+ .typo em,
+ .typo-em {
+   -webkit-text-emphasis: filled circle;
+       -moz-text-emphasis: filled circle;
+       -ms-text-emphasis: filled circle;
+           text-emphasis: filled circle;
+   -webkit-text-emphasis-position: under;
+       -moz-text-emphasis-position: under;
+       -ms-text-emphasis-position: under;
+           text-emphasis-position: under;
+ }
+ 
+ .typo u+u {
+   margin-left: .125em;
+ }
+ 
+ /* Responsive images */
+ .typo img {
+   max-width: 100%;
+ }
+
+
+
+ .fl{
+  float: left;
+}
+.fr{
+  float: right;
+}
+.clear{
+  clear: both;
+}
+.wefooter{
+  width: 100%;
+  /* background: #efedf1; */
+  height: 200px;
+}
+.wefooter_box{
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 28px;
+}
+.lt{
+  color: #525a68;
+  /* background: #ffffff; */
+  
+}
+.lt ul{
+  margin-left: -40px!important;
+}
+.lt li{
+  height: 40px;
+  line-height: 40px;
+}
+.lt li span{
+  display: inline-block;
+  margin-left: 32px;
+}
+.lt li h2{
+  width: 400px; text-align: center;
+  border-bottom:1px solid #525a68;
+}
+.dizhi{
+  border-bottom:1px solid #edeced;
+}
+.rt{
+  color: #045aab;
+}
+ul,li{
+  list-style: none;
+}
+* {margin:0px; padding:0px; font-size:12px; font-weight:normal; font-family:"microsoft yahei";}
+a {text-decoration:none; -Webkit-tap-highlight-color:rgba(0,0,0,0);}
+li {list-style-type:none;}
+/* img {border:none; width:100%;} */
+.clear {clear:both;}
+body {padding-top:0px; background:#f7f7f7;}
+.fl{
+float: left;
+}
+.fr{
+float: right;
+}
+.clear{
+clear: both;
+}
+body {
+padding-top: 0px;
+background: #f7f7f7;
+}
+.wefooter{
+  min-width: 320px;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+width: 100%;
+
+
+}
+.wefooter_box {
+margin-top: 12px;
+width: 100%;
+}
+
+.lt{
+width: 100%;
+margin: 1.2rem 0;
+display: table;
+border: 1px solid #e2e2e2;
+color: #525a68;
+background: #ffffff;
+}
+.lt li{
+
+line-height: 40px;
+}
+.lt li h2{
+height: 34px;
+line-height: 34px;
+text-align: center;
+color: #000000;
+border-bottom: 1px solid #f7f3f7;
+font-weight: bold;
+margin: 0;
+padding: 0;
+overflow: hidden;
+}
+.dizhi{
+border-bottom:1px solid #edeced;
+}
+.lt li img{
+width: 6%;
+vertical-align: middle;margin-left: 0.6em;margin-right: 0.4em;
+}
+
+ul,li{
+list-style: none;
+}
+
+.rt img{
+width: 100%;
+}
+
+.typo table{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+.clear{
+	clear: both;
+}
+.Input_Box {
+	width: 90%;margin-left: -0.5rem;
+	height: 160px;
+	border: 1px solid #ccc;
+	transition: border linear .2s, box-shadow linear .5s;
+	-moz-transition: border linear .2s, -moz-box-shadow linear .5s;
+	-webkit-transition: border linear .2s, -webkit-box-shadow linear .5s;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #fff;
+	overflow: hidden;
+	position: absolute;
+	-moz-box-shadow: 0 0 5px #ccc;
+	-webkit-box-shadow: 0 0 5px #ccc;
+	box-shadow: 0 0 5px #ccc;
+}
+.Input_Box>textarea {
+	width: 96%;
+	height: 111px;
+	padding: 5px;
+	outline: none;
+	border: 0px solid #fff;
+	resize: none;
+	font: 13px "微软雅黑", Arial, Helvetica, sans-serif;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+.Input_Foot {
+	width: 100%;
+	height: 35px;
+	border-top: 1px solid #ccc;
+	background-color: #fff;
+	-moz-border-radius: 0 0 5px 5px;
+	-webkit-border-radius: 0 0 5px 5px;
+	border-radius: 0 0 5px 5px;
+	position: absolute;
+}
+.imgBtn {
+	float: left;
+	margin-top: 8px;
+	margin-left: 10px;
+	background-image: url("/assets/images/imgs.png");
+	background-repeat: no-repeat;
+	background-position: 0 -13px;
+	height: 18px;
+	width: 20px;
+	cursor: pointer
+}
+.imgBtn:active {
+	margin-top: 9px;
+}
+.imgBtn:hover {
+	background-position: 0 -31px
+}
+.postBtn {
+	float: right;
+	font: 13px "微软雅黑", Arial, Helvetica, sans-serif;
+	color: #808080;
+	padding: 9px 20px 7px 20px;
+	border-left: 1px solid #ccc;
+	cursor: pointer;
+	-moz-border-radius: 0 0 5px 0;
+	-webkit-border-radius: 0 0 5px 0;
+	border-radius: 0 0 5px 0;
+}
+.postBtn:hover {
+	color: #333;
+	background-color: #efefef;
+}
+.postBtn:active {
+	padding: 10px 20px 6px 20px;
+}
+.faceDiv {
+	width: 500px;
+	height: 120px;
+	border-top: 1px solid #ccc;
+	position: absolute;
+	background-color: #fff;
+	-moz-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+
+}
+.faceDiv>img {
+	border: 1px solid #ccc;
+	float: left;
+	margin-left: -1px;
+	margin-top: -1px;
+	position: relative;
+	width: 24px;
+	height: 24px;
+	padding: 3px 3px 3px 3px;
+	cursor: pointer;
+}
+.faceDiv>img:hover {
+	background-color: #efefef;
+}
+.faceDiv>img:active {
+	padding: 4px 3px 2px 3px;
+}
+.goods-describe {
+    background: #fff;
+    margin-top: 12px;
+    height: auto;
+}
+.goods-describe-box {
+    width: 90%;
+    overflow: hidden;
+    margin: 0 auto;
+}
+#demo{
+	border: 1px solid #b5b5b5;
+	overflow: hidden;
+	width: 90%;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.btn {
+	width: 90%;
+    height: 34px;
+    color: #fff;
+    text-align: center;
+    line-height: 34px;
+    border-radius: 4px;
+    margin: 190px auto 0px;
+    background: -webkit-linear-gradient(#42188c, #294ab5);
+    background: -o-linear-gradient(#42188c, #294ab5);
+    background: -moz-linear-gradient(#42188c, #294ab5);
+	background: linear-gradient(#42188c, #294ab5);
+	cursor: pointer;
+}

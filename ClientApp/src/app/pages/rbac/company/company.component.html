@@ -1,0 +1,26 @@
+<dx-data-grid [dataSource]="companyDataSource" [keyExpr]="'id'" [remoteOperations]="true" height="600"
+    showBorders="true" [masterDetail]="{ enabled: true, template: 'detail' }">
+
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <!-- <dxo-group-panel [visible]="true"></dxo-group-panel> -->
+    <!-- <dxo-scrolling mode="virtual"></dxo-scrolling> -->
+    <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true">
+    </dxo-editing>
+    <!-- <dxo-grouping [autoExpandAll]="false"></dxo-grouping> -->
+
+    <dxi-column dataField="name" caption="公司名字"></dxi-column>
+    <dxi-column dataField="createTime" caption="创建时间" [dataType]="'date'"></dxi-column>
+
+
+    <!-- <dxo-summary>
+        <dxi-total-item column="Freight" summaryType="sum">
+            <dxo-value-format type="decimal" [precision]="2"></dxo-value-format>
+        </dxi-total-item>
+        <dxi-group-item column="Freight" summaryType="sum">
+            <dxo-value-format type="decimal" [precision]="2"></dxo-value-format>
+        </dxi-group-item>
+        <dxi-group-item summaryType="count">
+        </dxi-group-item>
+    </dxo-summary> -->
+</dx-data-grid>

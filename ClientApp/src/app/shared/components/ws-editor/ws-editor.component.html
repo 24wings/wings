@@ -1,0 +1,54 @@
+<ng-container>
+
+  <form (submit)="onFormSubmit($event)" [class.hide]="mode == 'List'">
+    <div style="display: flex;align-items: center;
+    justify-content: space-between;">
+      <div style="text-align: right;margin-bottom:20px;width: 100%;    text-align: right;
+      ">
+        <dx-button [icon]="'back'" (onClick)="back()" [width]="40" style="float:left"></dx-button>
+        <!-- <dx-button text="编辑" (onClick)="openUpdateModel($event)" [width]="40" style="margin-right:20px" -->
+        <!-- [disabled]="selectedRows.length != 1"></dx-button> -->
+        <!-- <dx-button text="详情" (onClick)="openNewModal($event)" [width]="40" style="margin-right:20px"></dx-button> -->
+        <dx-button text="保存" [width]="40" type="success" [useSubmitBehavior]="true" [stylingMode]="'outlined'"
+          style="float: right;"></dx-button>
+      </div>
+    </div>
+    <dx-form id="form" [(formData)]="formData" [readOnly]="false" [showColonAfterLabel]="true"
+      [showValidationSummary]="true" validationGroup="customerData" [colCount]="2">
+      <dxi-item [dataField]="item.dataField" [editorType]="item.editorType" *ngFor="let item of items"
+        [label]="item.label" [colCount]="1" [colSpan]="1" [template]="item.template"
+        [editorOptions]="item.editorOptions" [isRequired]="item.isRequired">
+        <dxi-validation-rule *ngFor="let rule of item.validationRules" [type]="rule.type" [message]="rule.message">
+        </dxi-validation-rule>
+
+        <ng-container [ngSwitch]="item.editorType">
+          <ng-container *ngSwitchCase="'wsRefTree'">
+            <div *dxTemplate="let cell of 'dxDropDownBoxTemplate'">
+              <dynamic-cell [(formData)]="formData" [item]="item"></dynamic-cell>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'wsImage'">
+            <dynamic-cell [(formData)]="formData" [item]="item"></dynamic-cell>
+          </ng-container>
+          <ng-container *ngSwitchCase="'dxLookup'">
+            <dx-lookup [displayExpr]="item.editorOptions.dxLookup.displayExpr"
+              [valueExpr]="item.editorOptions.dxLookup.valueExpr" [(value)]="formData[item.dataField]"
+              [dataSource]="item.editorOptions.dxLookup.dataSource">
+            </dx-lookup>
+          </ng-container>
+          <ng-container *ngSwitchDefault></ng-container>
+        </ng-container>
+      </dxi-item>
+
+      <!-- <dxi-item [colSpan]="4"></dxi-item> -->
+      <!-- <dxi-item
+          [alignment]="'bottom'"
+          itemType="button"
+          horizontalAlignment="left"
+          [buttonOptions]="submitButtonOptions"
+        >
+        </dxi-item> -->
+    </dx-form>
+  </form>
+
+</ng-container>

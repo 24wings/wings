@@ -1,0 +1,3 @@
+<dx-file-uploader name="file" [(value)]="images" [uploadUrl]="uploadUrl" selectButtonText="选择图片" labelText=""
+    accept="image/*" (onValueChanged)="onUploadStart($event)" [multiple]="false" (onUploaded)="uploaded($event)">
+</dx-file-uploader>
