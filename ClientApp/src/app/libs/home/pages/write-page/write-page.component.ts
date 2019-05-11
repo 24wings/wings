@@ -81,7 +81,7 @@ export class WritePageComponent {
         private authService: AuthService,
         private fileService: FileService
     ) {
-        authService.logIn("123", '123');
+        // authService.logIn("123", '123');
         setTimeout(() => {
             this.initEditor();
         }, 1000);

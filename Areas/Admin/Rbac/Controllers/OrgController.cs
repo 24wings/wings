@@ -19,10 +19,64 @@ namespace Wings.Areas.Admin.Rbac.Controllers
         {
             dataContext = _dataContext;
         }
+        [HttpPost]
+        public object insert(DevExtremInput bodyData)
+        {
+
+            var newOrg = new Org();
+            JsonConvert.PopulateObject(bodyData.values, newOrg);
+            if (newOrg.parentId != 0)
+            {
+                var parnetOrg = this.dataContext.orgs.Find(newOrg.parentId);
+                newOrg.path = parnetOrg.path + "," + parnetOrg.orgId;
+            }
+
+            this.dataContext.orgs.Add(newOrg);
+
+            this.dataContext.SaveChanges();
+            return true;
+
+        }
         [HttpGet]
         public object load(DataSourceLoadOptions options)
         {
-            return DataSourceLoader.Load(this.dataContext.orgs, options);
+            var query = from org in this.dataContext.orgs
+                        select new Org
+                        {
+                            userNum = (from user in this.dataContext.users where user.orgId == org.orgId select user).Count(),
+                            orgName = org.orgName,
+                            orgId = org.orgId,
+                            createTime = org.createTime,
+                            roleNum = 0,
+                            parentId = org.parentId,
+                            companyId = org.companyId
+                        };
+            return DataSourceLoader.Load(query, options);
+        }
+
+        [HttpPut]
+        public object update(DevExtremInput bodyData)
+        {
+            var org = this.dataContext.orgs.Find(bodyData.key);
+            JsonConvert.PopulateObject(bodyData.values, org);
+            this.dataContext.SaveChanges();
+            return true;
+        }
+
+
+        /// <summary>
+        /// 删除记录
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public bool delete(int key)
+        {
+
+            var org = this.dataContext.orgs.Find(key);
+            this.dataContext.orgs.Remove(org);
+            this.dataContext.SaveChanges();
+            return true;
         }
     }
     [Route("api/admin/Rbac/[controller]/[action]")]
@@ -48,7 +102,7 @@ namespace Wings.Areas.Admin.Rbac.Controllers
             return true;
 
         }
-        [HttpGet]
+        [HttpPut]
         public object update(DevExtremInput bodyData)
         {
             var company = this.dataContext.companys.Find(bodyData.key);
@@ -64,7 +118,7 @@ namespace Wings.Areas.Admin.Rbac.Controllers
         /// <param name="key"></param>
         /// <param name="table"></param>
         /// <returns></returns>
-        public bool remove(int key)
+        public bool delete(int key)
         {
 
             var company = this.dataContext.companys.Find(key);
@@ -74,5 +128,63 @@ namespace Wings.Areas.Admin.Rbac.Controllers
         }
 
     }
+    [Route("api/admin/Rbac/[controller]/[action]")]
+    public class UserController : Controller
+    {
+        public DataContext dataContext { get; set; }
+        public UserController(DataContext _dataContext)
+        {
+            dataContext = _dataContext;
+        }
+        [HttpGet]
+        public object load(DataSourceLoadOptions options)
+        {
+            var query = from u in this.dataContext.users
+                        select new User
+                        {
+                            id = u.id,
+                            org = (from org in this.dataContext.orgs where org.orgId == u.orgId select org).FirstOrDefault(),
+                            username = u.username,
+                            nickname = u.nickname,
+                            password = u.password,
+                            createTime = u.createTime
+                        };
+            return DataSourceLoader.Load(this.dataContext.users, options);
+        }
+        [HttpPost]
+        public object insert(DevExtremInput bodyData)
+        {
+            var newUser = new User();
+            JsonConvert.PopulateObject(bodyData.values, newUser);
+            this.dataContext.users.Add(newUser);
+            this.dataContext.SaveChanges();
+            return true;
 
+        }
+        [HttpPut]
+        public object update(DevExtremInput bodyData)
+        {
+            var user = this.dataContext.users.Find(bodyData.key);
+            JsonConvert.PopulateObject(bodyData.values, user);
+            this.dataContext.SaveChanges();
+            return true;
+        }
+
+
+        /// <summary>
+        /// 删除记录
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public bool delete(int key)
+        {
+
+            var user = this.dataContext.users.Find(key);
+            this.dataContext.users.Remove(user);
+            this.dataContext.SaveChanges();
+            return true;
+        }
+
+    }
 }

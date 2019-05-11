@@ -7,23 +7,16 @@ export class AuthService {
   public getToken(): string {
     return sessionStorage.getItem('token');
   }
-  loggedIn = false;
+  get loggedIn() {
+    return !!sessionStorage.getItem("userId");
+  }
+  set loggedIn(userId) {
+    sessionStorage.setItem("userId", userId as any);
+  }
 
   constructor(private router: Router, public httpClient: HttpClient) { }
 
-  async logIn(login: string, password: string) {
 
-    // var rtn = await this.httpClient
-    //   .post("/api/Auth/Sign/login", { username: login, password })
-    //   .toPromise();
-    // if (login == "admin" && password == "8888") {
-    this.loggedIn = true;
-    // this.router.navigate(["/"]);
-    // } else {
-    //   notify("用户名或密码错误", "erro");
-    // }
-
-  }
 
   logOut() {
     this.loggedIn = false;

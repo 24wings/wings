@@ -31,7 +31,7 @@ export class LoginFormComponent {
       return;
     }
 
-    this.authService.logIn(this.login, this.password);
+    // this.authService.logIn(this.login, this.password);
 
     args.validationGroup.reset();
   }

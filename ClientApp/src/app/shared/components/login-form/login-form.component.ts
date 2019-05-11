@@ -37,7 +37,7 @@ export class LoginFormComponent {
       var user: LoginUser = rtn.user;
       this.appInfo.userInfo = user;
       localStorage.setItem("token", user.token);
-      this.authService.logIn(this.login, this.password);
+      this.authService.loggedIn = user.id as any;
 
       this.router.navigateByUrl("/home/write");
       // }

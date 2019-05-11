@@ -1,5 +1,5 @@
 <dx-data-grid [dataSource]="companyDataSource" [keyExpr]="'id'" [remoteOperations]="true" height="600"
-    showBorders="true" [masterDetail]="{ enabled: true, template: 'detail' }">
+    showBorders="true">
 
     <dxo-filter-row [visible]="true"></dxo-filter-row>
     <dxo-header-filter [visible]="true"></dxo-header-filter>
@@ -13,14 +13,4 @@
     <dxi-column dataField="createTime" caption="创建时间" [dataType]="'date'"></dxi-column>
 
 
-    <!-- <dxo-summary>
-        <dxi-total-item column="Freight" summaryType="sum">
-            <dxo-value-format type="decimal" [precision]="2"></dxo-value-format>
-        </dxi-total-item>
-        <dxi-group-item column="Freight" summaryType="sum">
-            <dxo-value-format type="decimal" [precision]="2"></dxo-value-format>
-        </dxi-group-item>
-        <dxi-group-item summaryType="count">
-        </dxi-group-item>
-    </dxo-summary> -->
 </dx-data-grid>

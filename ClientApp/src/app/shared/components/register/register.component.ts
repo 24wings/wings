@@ -38,7 +38,7 @@ export class RegisterComponent {
                 notify("恭喜加入我们", 'success');
                 sessionStorage.setItem("userId", rtn.user.id);
 
-                this.authService.logIn(this.username, this.password);
+                // this.authService.logIn(this.username, this.password);
                 this.router.navigateByUrl("/home/write");
 
             }
