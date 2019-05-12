@@ -1,4 +1,6 @@
 export const environment = {
-  ip: "http://115.29.64.6",
-  production: true
+  SERVER_URL: `./`,
+  production: true,
+  useHash: true,
+  hmr: false,
 };

@@ -1,45 +1,32 @@
-import { Component, HostBinding } from "@angular/core";
-import { AuthService, ScreenService, AppInfoService } from "./shared/services";
-import { locale, loadMessages, formatMessage } from "devextreme/localization";
-import "devextreme-intl";
-
-
-import { HttpClient } from "@angular/common/http";
-
-
+import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { TitleService } from '@delon/theme';
+import { VERSION as VERSION_ALAIN } from '@delon/theme';
+import { VERSION as VERSION_ZORRO, NzModalService } from 'ng-zorro-antd';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"]
+  selector: 'app-root',
+  template: `
+    <router-outlet></router-outlet>
+  `,
 })
-export class AppComponent {
-  @HostBinding("class") get getClass() {
-    return Object.keys(this.screen.sizes)
-      .filter(cl => this.screen.sizes[cl])
-      .join(" ");
-  }
-  initMessages() {
-
-    locale("zh");
-  }
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class. 
-
-  }
-
+export class AppComponent implements OnInit {
   constructor(
-    private authService: AuthService,
-    private screen: ScreenService,
-    public appInfo: AppInfoService,
-    public httpClient: HttpClient
+    el: ElementRef,
+    renderer: Renderer2,
+    private router: Router,
+    private titleSrv: TitleService,
+    private modalSrv: NzModalService,
   ) {
-    this.initMessages();
+    renderer.setAttribute(el.nativeElement, 'ng-alain-version', VERSION_ALAIN.full);
+    renderer.setAttribute(el.nativeElement, 'ng-zorro-version', VERSION_ZORRO.full);
   }
 
-  isAutorized() {
-    return this.authService.isLoggedIn;
+  ngOnInit() {
+    this.router.events.pipe(filter(evt => evt instanceof NavigationEnd)).subscribe(() => {
+      this.titleSrv.setTitle();
+      this.modalSrv.closeAll();
+    });
   }
-
 }

@@ -9,6 +9,24 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Wings.Projects.Web
 {
+    [Table("menu")]
+    public class Menu
+    {
+        public int id { get; set; }
+        public string text { get; set; }
+        public string link { get; set; }
+        /// <summary>
+        /// 权限编码
+        /// </summary>
+        /// <value></value>
+        public string code { get; set; }
+        public int parentId { get; set; } = 0;
+        public DateTime createTime { get; set; } = DateTime.Now;
+
+    }
+
+
+
 
     [Table("role")]
     public class Role
@@ -58,13 +76,18 @@ namespace Wings.Projects.Web
         /// </summary>
         /// <value></value>
         public string path { get; set; }
-
+        /// <summary>
+        /// 级别
+        /// </summary>
+        /// <value></value>
+        public int level { get; set; } = 0;
 
         [NotMapped]
 
         public int roleNum { get; set; } = 0;
         [NotMapped]
         public int userNum { get; set; } = 0;
+
 
     }
     [Table("company")]
@@ -102,6 +125,7 @@ namespace Wings.Projects.Web
 
         public DbSet<Company> companys { get; set; }
         public DbSet<Role> roles { get; set; }
+        public DbSet<Menu> menus { get; set; }
 
 
 

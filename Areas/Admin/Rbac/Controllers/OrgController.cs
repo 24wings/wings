@@ -49,7 +49,8 @@ namespace Wings.Areas.Admin.Rbac.Controllers
                             createTime = org.createTime,
                             roleNum = 0,
                             parentId = org.parentId,
-                            companyId = org.companyId
+                            companyId = org.companyId,
+                            level = org.level
                         };
             return DataSourceLoader.Load(query, options);
         }

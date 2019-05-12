@@ -1,184 +1,92 @@
-# devextreme-angular-template
+<p align="center">
+  <a href="https://ng-alain.com">
+    <img width="100" src="https://ng-alain.com/assets/img/logo-color.svg">
+  </a>
+</p>
 
-The DevExtreme Angular Template allows you to create an application with several views and a hierarchical menu (see the [live preview](https://devexpress.github.io/devextreme-angular-template)).
+<h1 align="center">NG-ALAIN</h1>
 
-![](https://user-images.githubusercontent.com/2280467/55783878-138cfd00-5ab8-11e9-8946-cb6c9de96ce1.png)
+<div align="center">
+  Out-of-box UI solution for enterprise applications, Let developers focus on business.
 
-You can use [DevExtreme CLI](https://github.com/DevExpress/devextreme-cli) commands to modify, add, and delete views, configure the menu, and change themes.
+  [![Build Status](https://img.shields.io/travis/ng-alain/ng-alain/master.svg?style=flat-square)](https://travis-ci.org/ng-alain/ng-alain)
+  [![Dependency Status](https://david-dm.org/ng-alain/ng-alain/status.svg?style=flat-square)](https://david-dm.org/ng-alain/ng-alain)
+  [![GitHub Release Date](https://img.shields.io/github/release-date/ng-alain/ng-alain.svg?style=flat-square)](https://github.com/ng-alain/ng-alain/releases)
+  [![NPM version](https://img.shields.io/npm/v/ng-alain.svg?style=flat-square)](https://www.npmjs.com/package/ng-alain)
+  [![prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://prettier.io/)
+  [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/ng-alain/ng-alain/blob/master/LICENSE)
+  [![Gitter](https://img.shields.io/gitter/room/ng-alain/ng-alain.svg?style=flat-square)](https://gitter.im/ng-alain/ng-alain)
+  [![ng-zorro-vscode](https://img.shields.io/badge/ng--zorro-VSCODE-brightgreen.svg?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=cipchk.ng-zorro-vscode)
+  [![ng-alain-vscode](https://img.shields.io/badge/ng--alain-VSCODE-brightgreen.svg?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=cipchk.ng-alain-vscode)
 
-The DevExtreme Angular Template is based on [DevExtreme Angular components](https://github.com/devexpress/DevExtreme-angular) and generated with [Angular CLI](https://github.com/angular/angular-cli).
-
-* [Getting started](#getting-started)
-* [Add DevExtreme Angular Template to an Existing Application](#add-template-to-existing-app)
-* [Switch the Layout](#switch-layout)
-* [Add a View](#add-view)
-* [Configure Navigation Items](#configure-nav-items)
-* [Customize Application Appearance](#customize-application-appearance)
-  * [Change Theme](#change-theme)
-  * [Create a Custom Theme](#create-custom-theme)
-  * [Apply the Additional Theme to a Custom Element](#apply-additional-theme-to-custom-element)
-  * [Apply Theme Variables to Custom Elements](#apply-theme-variables)
-* [License](#license)
-
-## <a name="getting-started"></a>Getting Started
-
-Use the DevExtreme CLI's `new angular-app` command to create a DevExtreme Angular application that includes several sample views and a navigation menu:
-
-```bash
-npx devextreme-cli new angular-app app-name
-cd app-name
-npm run start
-```
-
-The application includes a side navigation menu and an outer toolbar.
-![Outer Toolbar Layout](https://user-images.githubusercontent.com/2280467/55954182-b71c1000-5c66-11e9-8fcf-80d193a805c2.png)
-
-You can set the `--layout` option to `side-nav-inner-toolbar` to use the layout with an inner toolbar.
-
-```bash
-npx devextreme-cli new angular-app app-name --layout=side-nav-inner-toolbar
-```
-
-![Inner Toolbar Layout](https://user-images.githubusercontent.com/2280467/55954209-cc913a00-5c66-11e9-8502-c99824b192e1.png)
-
-Use the `--empty` flag to generate an application without views and navigation items.
-
-```bash
-npx devextreme-cli new angular-app app-name --empty
-```
-
-You can also clone the current repository to configure the DevExtreme Angular Template.
-
-```bash
-git clone https://github.com/DevExpress/devextreme-angular-template/
-cd devextreme-angular-template
-npm install
-npm run start
-```
-
-## <a name="add-template-to-existing-app"></a>Add DevExtreme Angular Template to an Existing Application
-
-If you have an existing angular application, use the `add angular-template` command to add a DevExtreme Angular Template.
-
-```bash
-npx devextreme-cli add angular-template
-```
-
-This command creates new files (for example, *app1.component*) and does not override existing files. You should embed the new content in the existing files, or modify the *app.module.ts* to bootstrap the component.
-
-```TypeScript
-// ...
-import { AppComponent } from './app1.component';
-// ...
-```
-
-You can use the `--resolve-conflicts=override` option to override existing files.
-
-**Note that in this case, the changes you applied to the application files can be lost.**
-
-```bash
-npx devextreme-cli add angular-template --resolve-conflicts=override
-```
-
-This command also supports the `--layout` and `--empty` options that are described in the [Getting Started](#getting-started) section.
-
-See [DevExtreme CLI README](https://github.com/devexpress/DevExtreme-cli#add-devextreme-to-an-existing-application) for more information.
-
-## <a name="switch-layout"></a>Switch the Layout
-
-You can change the layout in an existing application. For this, substitute the `app-side-nav-outer-toolbar` tag with `app-side-nav-inner-toolbar` in the *app.component.html* file.
-
-```html
-<app-side-nav-inner-toolbar title="DevExtreme Angular Template">
-    <!-- Layout content here -->
-</app-side-nav-inner-toolbar>
-```
-
-## <a name="add-view"></a>Add a View
-
-Use the following command to add a view to a DevExtreme Angular application based on the current template:
-
-```bash
-npx devextreme add view view-name [--icon=IconName]
-```
-
-You can choose the icon name from the [icon library](https://js.devexpress.com/Documentation/Guide/Themes/Icon_Library/).
-
-This command also supports the `module`, `project`, `spec`, `inlineStyle`, and `prefix` options described in the [ng generate component](https://github.com/angular/angular-cli/wiki/generate-component) description.
-
-The `add view` command also creates a root navigation item for the view.
-
-Refer to the [Widget Gallery](https://js.devexpress.com/Demos/WidgetsGallery/) for examples of using DevExtreme widgets in Angular.
-
-## <a name="configure-nav-items"></a>Configure Navigation Items
-
-Use the *src\app\app-navigation.ts* file to configure navigation items. Each configuration item can have the following fields:
-
-- **text** - an item text
-- **icon** - an item icon
-- **path** - a navigation path associated with an item
-- **items** - child items
-
-```TypeScript
-{
-    text: 'Category',
-    icon: 'folder',
-    items: [{
-        text: 'About',
-        path: '/about'
-    }]
-}
-```
-
-## <a name="customize-application-appearance"></a>Customize Application Appearance
-
-### <a name="change-theme"></a>Change Theme
-
-The DevExtreme Angular Template uses different themes for its content and menu. Pass the theme's name to the base-theme option in the *metadata.base.json* and *metadata.additional.json* files in the *src\themes* folder to modify the content and menu themes. See [Predefined Themes](https://js.devexpress.com/Documentation/Guide/Themes/Predefined_Themes/) for more information.
-
-```javascript
-{
-    // ...,
-    "baseTheme": "material.blue.light",
-    // ...
-}
-```
-
-Run `npm run build-themes` to rebuild themes.
-
-### <a name="create-custom-theme"></a>Create a Custom Theme
-
-You can use the DevExtreme Theme Builder to create a custom theme based on predefined themes. For this, import *src\themes\metadata.base.json* or *src\themes\metadata.additional.json* into the [Theme Builder](https://js.devexpress.com/Documentation/Guide/Themes/Theme_Builder/), modify the theme, and export the result to the initial file.
-
-Run `npm run build` to rebuild themes.
-
-### <a name="apply-additional-theme-to-custom-element"></a>Apply the Additional Theme to a Custom Element
-
-Add the `dx-swatch-additional` class to a DOM node to apply the additional (menu) theme to this node.
-
-```html
-<div class="dx-swatch-additional">
-    <!-- Your content here -->
 </div>
+
+English | [简体中文](README-zh_CN.md)
+
+## Quick start
+
+```bash
+# Make sure you are using the latest version of Angular cli
+ng new demo --style less
+cd demo
+ng add ng-alain
+ng s -o
+# or HMR mode
+npm run hmr
 ```
 
-### <a name="apply-theme-variables"></a>Apply Theme Variables to Custom Elements
+> Please refer to [Cli](https://ng-alain.com/cli) for more details.
+>
+> [vscode] recommended install [ng-zorro-vscode](https://marketplace.visualstudio.com/items?itemName=cipchk.ng-zorro-vscode) & [ng-alain-vscode](https://marketplace.visualstudio.com/items?itemName=cipchk.ng-alain-vscode) plugins.
 
-You can apply the SCSS variables defined in *variables.base.scss* and *variables.additional.scss* to custom elements.
+## Links
 
-```scss
-// Your scss file
-@import "../../../themes/generated/variables.base.scss";
++ [Document](https://ng-alain.com)
++ [DEMO](https://ng-alain.github.io/ng-alain/)
 
-.my-element {
-    background-color: $base-accent;
-}
-```
+## Features
 
-## <a name="license"></a>License
++ `ng-zorro-antd` based
++ Responsive Layout
++ I18n
++ [@delon](https://github.com/ng-alain/delon)
++ Lazy load Assets
++ UI Router States
++ Customize Theme
++ Less preprocessor
++ Well organized & commented code
++ Simple upgrade
++ Support Docker deploy
 
-Familiarize yourself with the
-[DevExtreme License](https://js.devexpress.com/Licensing/).
-[Free trial is available!](http://js.devexpress.com/Buy/)
+## Architecture
 
-**DevExtreme Angular Template is released as a MIT-licensed (free and open-source) add-on to DevExtreme.**
+![Architecture](https://raw.githubusercontent.com/ng-alain/delon/master/_screenshot/architecture.png)
+
+> [delon](https://github.com/ng-alain/delon) is a production-ready solution for admin business components packages, Built on the design principles developed by Ant Design.
+
+## App Shots
+
+![desktop](https://raw.githubusercontent.com/ng-alain/delon/master/_screenshot/desktop.png)
+![ipad](https://raw.githubusercontent.com/ng-alain/delon/master/_screenshot/ipad.png)
+![iphone](https://raw.githubusercontent.com/ng-alain/delon/master/_screenshot/iphone.png)
+
+## Donation
+
+ng-alain is an MIT-licensed open source project. In order to achieve better and sustainable development of the project, we expect to gain more backers. You can support us in any of the following ways:
+
+- [patreon](https://www.patreon.com/cipchk)
+- [opencollective](https://opencollective.com/ng-alain)
+- [paypal](https://www.paypal.me/cipchk)
+- [支付宝或微信](https://ng-alain.com/assets/donate.png)
+
+Or purchasing our [business theme](https://e.ng-alain.com/).
+
+## Backers
+
+Thank you to all our backers! 🙏
+
+<a href="https://opencollective.com/ng-alain#backers" target="_blank"><img src="https://opencollective.com/ng-alain/backers.svg?width=890"></a>
+
+### License
+
+The MIT License (see the [LICENSE](https://github.com/ng-alain/ng-alain/blob/master/LICENSE) file for the full text)
