@@ -16,11 +16,13 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 import { DynamicModule } from 'app/libs/dynamic/dynamic.module';
-import { UserComponent } from 'app/libs/rbac/user/user.component';
-import { RoleComponent } from 'app/libs/rbac/role/role.component';
 import { CompanyComponent } from './rbac/company/company.component';
 import { OrgComponent } from './rbac/org/org.component';
 import { MenuComponent } from './rbac/menu/menu.component';
+import { RoleComponent } from './rbac/role/role.component';
+import { UserComponent } from './rbac/user/user.component';
+import { SubjectComponent } from './study/subject/subject.component';
+import { MyRoutineComponent } from './study/my-routine/my-routine.component';
 
 const routes: Routes = [
   {
@@ -34,8 +36,11 @@ const routes: Routes = [
       { path: "rbac/company", component: CompanyComponent },
       { path: 'rbac/menu', component: MenuComponent, },
       { path: 'rbac/role', component: RoleComponent },
+      { path: 'study/subject', component: SubjectComponent },
+      { path: 'study/my-routine', component: MyRoutineComponent },
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard' } },
       { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
+
 
       // { path: "dynamic/col", component: DynamicColComponent }
       // 业务子模块

@@ -7,6 +7,7 @@ import { SocialService, SocialOpenType, ITokenService, DA_SERVICE_TOKEN } from '
 import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { StartupService } from '@core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'passport-login',
@@ -30,7 +31,7 @@ export class UserLoginComponent implements OnDestroy {
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupSrv: StartupService,
-    public http: _HttpClient,
+    public http: HttpClient,
     public msg: NzMessageService,
   ) {
     this.form = fb.group({
@@ -84,7 +85,7 @@ export class UserLoginComponent implements OnDestroy {
 
   // #endregion
 
-  submit() {
+  async submit() {
     this.error = '';
     if (this.type === 0) {
       this.userName.markAsDirty();
@@ -99,7 +100,27 @@ export class UserLoginComponent implements OnDestroy {
       this.captcha.updateValueAndValidity();
       if (this.mobile.invalid || this.captcha.invalid) return;
     }
+    var rtn: any = await this.http.post("api/admin/auth/Auth/login", { username: this.userName.value, password: this.password.value }).toPromise()
+    debugger;
+    if (rtn) {
+      if (rtn.success) {
+        localStorage.setItem("userId", rtn.resData.id);
+        // 清空路由复用信息
+        this.reuseTabService.clear();
+        // 设置用户Token信息
+        this.tokenService.set({ token: '123', name: '管理员', username: '管理员' });
+        // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
+        this.startupSrv.load().then(() => {
+          let url = this.tokenService.referrer!.url || '/';
+          if (url.includes('/passport')) url = '/';
+          this.router.navigateByUrl(url);
+        });
+      } else {
+        this.msg.error(rtn.message);
+      }
 
+
+    }
     // 默认配置中对所有HTTP请求都会强制 [校验](https://ng-alain.com/auth/getting-started) 用户 Token
     // 然一般来说登录请求不需要校验，因此可以在请求URL加上：`/login?_allow_anonymous=true` 表示不触发用户 Token 校验
     // this.http
@@ -126,16 +147,6 @@ export class UserLoginComponent implements OnDestroy {
     //   });
 
 
-    // 清空路由复用信息
-    this.reuseTabService.clear();
-    // 设置用户Token信息
-    this.tokenService.set({ token: '123', name: '管理员', username: '管理员' });
-    // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
-    this.startupSrv.load().then(() => {
-      let url = this.tokenService.referrer!.url || '/';
-      if (url.includes('/passport')) url = '/';
-      this.router.navigateByUrl(url);
-    });
 
   }
 

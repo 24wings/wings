@@ -1,0 +1,119 @@
+<nz-card>
+    <div style="display: flex;justify-content: space-between">
+        <div style="    display: flex;">
+            <nz-form-item nzFlex style="margin-right: 40px;">
+                <nz-form-label>所在公司</nz-form-label>
+                <nz-form-control>
+                    <nz-select style="width: 200px" [ngModel]="queryCompany" nzPlaceHolder="选择所在公司" nzAllowClear
+                        nzShowSearch [nzServerSearch]="true" (nzOnSearch)="onSearchCompany($event)"
+                        (ngModelChange)="queryCompany=$event;selectCompany($event)">
+                        <ng-container *ngFor="let o of companyOptionList">
+                            <nz-option [nzValue]="o" [nzLabel]="o.name"></nz-option>
+                        </ng-container>
+                        <nz-option *ngIf="isLoadingCompany" nzDisabled nzCustomContent>
+                            <i nz-icon type="loading" class="loading-icon"></i> Loading Data...
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nzFlex>
+                <nz-form-label>所在组织</nz-form-label>
+                <nz-form-control>
+                    <nz-tree-select style="width: 250px" [nzNodes]="orgNodes" nzShowSearch nzPlaceHolder="请选择组织"
+                        [(ngModel)]="queryOrgId" (ngModelChange)="queryOrgId=$event">
+                    </nz-tree-select>
+                </nz-form-control>
+            </nz-form-item>
+
+        </div>
+        <div>
+            <button nz-button nzType="primary" (click)="search()">查询</button>
+        </div>
+    </div>
+    <div style="margin-top:20px;margin-bottom:20px;">
+        <button nz-button [nzType]="'primary'" (click)="state=View.Create">添加</button>
+    </div>
+    <nz-table #rowSelectionTable nzShowSizeChanger [nzData]="roles">
+        <thead>
+            <tr>
+                <th nzShowCheckbox nzShowRowSelection></th>
+                <th>昵称</th>
+                <th>账号</th>
+                <th>角色</th>
+
+                <th>加入时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of rowSelectionTable.data">
+                <td [nzChecked]="data.checked" nzShowCheckbox></td>
+                <td>{{ data.nickname }}</td>
+                <td>{{data.username}}</td>
+                <td>
+                    <nz-tag [nzColor]="'green'" *ngFor="let tag of data.roles">{{tag.roleName}}</nz-tag>
+                </td>
+                <td>{{ data.createTime|date:'yyyy-MM-dd' }}</td>
+                <td>
+                    <i nz-icon nzType="edit" nzTheme="outline" (click)="selectUser(data);state=View.Update"></i>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a nz-popconfirm nzTitle="确认删除?" nzOkText="确定" nzCancelText="取消" (nzOnConfirm)="deleteRole(data)">
+                        <i nz-icon nzType="delete" nzTheme="outline"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
+
+
+<!-- 创建 -->
+<ng-container>
+    <nz-modal [(nzVisible)]="state==View.Create" nzTitle="添加" (nzOnOk)="createUser()" (nzOnCancel)="state=View.List">
+        <nz-form-item nzFlex>
+            <nz-form-label>昵称</nz-form-label>
+            <nz-form-control>
+                <input nz-input placeholder="角色名" [(ngModel)]="newUser.nickname" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nzFlex>
+            <nz-form-label>菜单表</nz-form-label>
+            <nz-form-control>
+                <nz-select style="width: 300px" nzMode="multiple" nzPlaceHolder="Inserted are removed"
+                    [(ngModel)]="newUser.roles">
+                    <ng-container *ngFor="let option of roleOptions">
+                        <nz-option [nzLabel]="option.roleName" [nzValue]="option.id" *ngIf="isNotSelected(option)">
+                        </nz-option>
+                    </ng-container>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <button (click)="refershNewUserMenu()">查询</button>
+    </nz-modal>
+</ng-container>
+
+<!-- 更新 -->
+<ng-container>
+    <nz-modal [(nzVisible)]="state==View.Update" nzTitle="更新" (nzOnOk)="updateUser()" (nzOnCancel)="state=View.List">
+        <ng-container *ngIf="selectedUser">
+            <nz-form-item nzFlex>
+                <nz-form-label>昵称</nz-form-label>
+                <nz-form-control>
+                    <input nz-input placeholder="昵称" [(ngModel)]="selectedUser.nickname" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nzFlex>
+                <nz-form-label>账号</nz-form-label>
+                <nz-form-control>
+                    <input nz-input placeholder="账号" [(ngModel)]="selectedUser.username" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nzFlex>
+                <nz-form-label>密码</nz-form-label>
+                <nz-form-control>
+                    <input nz-input placeholder="密码" [(ngModel)]="selectedUser.password" />
+                </nz-form-control>
+            </nz-form-item>
+
+        </ng-container>
+    </nz-modal>
+</ng-container>

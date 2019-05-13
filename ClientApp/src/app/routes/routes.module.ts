@@ -12,11 +12,14 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 import { DynamicModule } from 'app/libs/dynamic/dynamic.module';
-import { UserComponent } from 'app/libs/rbac/user/user.component';
-import { RoleComponent } from 'app/libs/rbac/role/role.component';
+// import { RoleComponent } from 'app/libs/rbac/role/role.component';
 import { CompanyComponent } from './rbac/company/company.component';
 import { OrgComponent } from './rbac/org/org.component';
 import { MenuComponent } from './rbac/menu/menu.component';
+import { RoleComponent } from './rbac/role/role.component';
+import { UserComponent } from './rbac/user/user.component';
+import { SubjectComponent } from './study/subject/subject.component';
+import { MyRoutineComponent } from './study/my-routine/my-routine.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -32,6 +35,9 @@ const COMPONENTS = [
   RoleComponent,
   CompanyComponent,
   OrgComponent,
+  SubjectComponent,
+  MyRoutineComponent
+
 
 ];
 const COMPONENTS_NOROUNT = [];

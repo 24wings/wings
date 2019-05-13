@@ -37,13 +37,12 @@
                 <td>{{ data.createTime }}</td>
                 <td>
 
-                    <i nz-icon nzType="plus" nzTheme="outline" (click)="selectedCompany=data;state=View.Create"></i>
+                    <i nz-icon nzType="plus" nzTheme="outline" (click)="selectOrg(data)"></i>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <i nz-icon nzType="edit" nzTheme="outline"></i>
+                    <a (click)="selectOrg(data);state=View.Update"> <i nz-icon nzType="edit" nzTheme="outline"></i></a>
                     <nz-divider nzType="vertical"></nz-divider>
                     <a nz-popconfirm nzTitle="确认删除?" nzOkText="确定" nzCancelText="取消" (nzOnConfirm)="deleteOrg(data)"> <i
                             nz-icon nzType="delete" nzTheme="outline"></i></a>
-
                 </td>
             </tr>
         </tbody>
@@ -51,17 +50,25 @@
 </nz-card>
 
 
-<!--  -->
-<ng-container>
+<!--添加  -->
+<nz-modal [(nzVisible)]="state==View.Create" nzTitle="添加" (nzOnOk)="createOrg()" (nzOnCancel)="state=View.List">
+    <nz-form-item nzFlex>
+        <nz-form-label>组织名称</nz-form-label>
+        <nz-form-control>
+            <input nz-input placeholder="组织名称" [(ngModel)]="newOrg.orgName" />
+        </nz-form-control>
+    </nz-form-item>
+</nz-modal>
 
-    <nz-modal [(nzVisible)]="state==View.Create" nzTitle="添加" (nzOnOk)="createOrg()" (nzOnCancel)="state=View.List">
+<!--更新-->
+<nz-modal [(nzVisible)]="state==View.Update" nzTitle="更新" (nzOnOk)="updateOrg()" (nzOnCancel)="state=View.List">
+    <ng-container *ngIf="selectedOrg">
+
         <nz-form-item nzFlex>
-            <nz-form-label>公司名称</nz-form-label>
-            <nz-form-control>
-                <input nz-input placeholder="组织名称" [(ngModel)]="newOrg.orgName" />
+            <nz-form-label>组织名称</nz-form-label>
+            <nz-form-control style="width: 80%;">
+                <input nz-input placeholder="组织名称" [(ngModel)]="selectedOrg.orgName" />
             </nz-form-control>
         </nz-form-item>
-
-
-    </nz-modal>
-</ng-container>
+    </ng-container>
+</nz-modal>

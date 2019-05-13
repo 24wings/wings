@@ -9,12 +9,36 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Wings.Projects.Web
 {
+    [Table("subject")]
+    public class Subject
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string summary { get; set; }
+        public DateTime startTime { get; set; } = DateTime.Now;
+        public DateTime endTime { get; set; } = DateTime.Now;
+        public DateTime createTime { get; set; } = DateTime.Now;
+        public int companyId { get; set; }
+        public SubjectStatus status { get; set; } = SubjectStatus.Active;
+
+    }
+
+    public enum SubjectStatus
+    {
+        Active,
+        Deprecated
+    }
+
+
+
     [Table("menu")]
     public class Menu
     {
         public int id { get; set; }
         public string text { get; set; }
         public string link { get; set; }
+        public int level { get; set; } = 0;
+        public string path { get; set; } = "";
         /// <summary>
         /// 权限编码
         /// </summary>
@@ -34,7 +58,7 @@ namespace Wings.Projects.Web
         [Key]
         public int id { get; set; }
         public string roleName { get; set; }
-        public string menuIds { get; set; }
+        public string menuIds { get; set; } = "";
         public DateTime createTime { get; set; } = DateTime.Now;
         public int orgId { get; set; }
         public int companyId { get; set; }
@@ -46,6 +70,7 @@ namespace Wings.Projects.Web
     [Table("user")]
     public class User
     {
+        [Key]
         public int id { get; set; }
         public string username { get; set; }
         public int orgId { get; set; } = 0;
@@ -54,11 +79,25 @@ namespace Wings.Projects.Web
         /// </summary>
         /// <value></value>
         public string nickname { get; set; }
+        /// <summary>
+        /// 角色列表
+        /// </summary>
+        /// <value></value>
+        public string roleIds { get; set; } = "";
         public string password { get; set; }
         [NotMapped]
         public Org org { get; set; }
 
         public DateTime createTime { get; set; } = DateTime.Now;
+        /// <summary>
+        /// 公司Id
+        /// </summary>
+        /// <value></value>
+        public int companyId { get; set; }
+        [NotMapped]
+        public List<Role> roles { get; set; } = new List<Role>();
+        [NotMapped]
+        public List<Menu> menus { get; set; } = new List<Menu>();
 
 
     }
@@ -126,6 +165,7 @@ namespace Wings.Projects.Web
         public DbSet<Company> companys { get; set; }
         public DbSet<Role> roles { get; set; }
         public DbSet<Menu> menus { get; set; }
+        public DbSet<Subject> subjects { get; set; }
 
 
 

@@ -1,0 +1,101 @@
+<nz-card>
+    <div style="display: flex;justify-content: space-between">
+        <nz-form-item nzFlex>
+            <nz-form-label>所在公司</nz-form-label>
+            <nz-form-control>
+                <nz-select style="width: 200px" [(ngModel)]="queryCompany" nzPlaceHolder="选择所在公司" nzAllowClear
+                    nzShowSearch [nzServerSearch]="true" (nzOnSearch)="onSearch($event)">
+                    <ng-container *ngFor="let o of companyOptionList">
+                        <nz-option *ngIf="!isLoading" [nzValue]="o" [nzLabel]="o.name"></nz-option>
+                    </ng-container>
+                    <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+                        <i nz-icon type="loading" class="loading-icon"></i> Loading Data...
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <button nz-button nzType="primary" (click)="search()">查询</button>
+    </div>
+    <div style="margin-top:20px;margin-bottom:20px;">
+        <button nz-button [nzType]="'primary'" (click)="state=View.Create">添加</button>
+    </div>
+    <nz-table #rowSelectionTable nzShowSizeChanger [nzData]="subjects">
+        <thead>
+            <tr>
+                <th nzShowCheckbox nzShowRowSelection></th>
+                <th>课程名字</th>
+                <th>开课时间</th>
+                <th>结课时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of rowSelectionTable.data">
+                <td [nzChecked]="data.checked" nzShowCheckbox></td>
+                <td>{{ data.name }}</td>
+                <td>{{data.startTime|date:'yyyy-MM-dd'}}</td>
+                <td>{{ data.endTime |date:'yyyy-MM-dd'}}</td>
+                <td>
+                    <i nz-icon nzType="plus" nzTheme="outline" (click)="selectSubject(data)"></i>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a (click)="selectSubject(data);state=View.Update"> <i nz-icon nzType="edit"
+                            nzTheme="outline"></i></a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a nz-popconfirm nzTitle="确认删除?" nzOkText="确定" nzCancelText="取消"
+                        (nzOnConfirm)="deleteSubject(data)"> <i nz-icon nzType="delete" nzTheme="outline"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
+
+
+<!--添加  -->
+<nz-modal [(nzVisible)]="state==View.Create" nzTitle="添加" (nzOnOk)="createSubject()" (nzOnCancel)="state=View.List">
+    <div>
+        <nz-form-item nzFlex>
+            <nz-form-label>课程名字</nz-form-label>
+            <nz-form-control style="width:80%">
+                <input nz-input placeholder="课程名字" [(ngModel)]="newSubject.name" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nzFlex>
+            <nz-form-label>开课时间</nz-form-label>
+            <nz-form-control style="width:80%">
+                <nz-date-picker [(ngModel)]="newSubject.startTime"></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nzFlex>
+            <nz-form-label>结课时间</nz-form-label>
+            <nz-form-control style="width:80%">
+                <nz-date-picker [(ngModel)]="newSubject.endTime"></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+</nz-modal>
+
+<!--更新-->
+<nz-modal [(nzVisible)]="state==View.Update" nzTitle="更新" (nzOnOk)="updateSubject()" (nzOnCancel)="state=View.List">
+    <ng-container *ngIf="selectedSubject">
+
+        <nz-form-item nzFlex>
+            <nz-form-label>课程名字</nz-form-label>
+            <nz-form-control style="width: 80%;">
+                <input nz-input placeholder="课程名字" [(ngModel)]="selectedSubject.name" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nzFlex>
+            <nz-form-label>开课时间</nz-form-label>
+            <nz-form-control style="width:80%">
+                <nz-date-picker [(ngModel)]="selectedSubject.startTime"></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nzFlex>
+            <nz-form-label>结课时间</nz-form-label>
+            <nz-form-control style="width:80%">
+                <nz-date-picker [(ngModel)]="selectedSubject.endTime"></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+    </ng-container>
+
+</nz-modal>

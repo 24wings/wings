@@ -5,28 +5,27 @@ import { list2Tree } from 'app/libs/dynamic/util/listToTree';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, debounceTime, switchMap } from 'rxjs/operators';
-
 enum View {
     Create,
     Update,
     List
 }
 @Component({
-    selector: "app-org",
-    templateUrl: "./org.component.html"
+    selector: "app-subject",
+    templateUrl: './subject.component.html'
 })
-export class OrgComponent {
+export class SubjectComponent {
     View = View;
     state = View.List;
     companyOptionList: any[] = [];
     queryCompany
-    newOrg: { orgName: string, companyId } = {
-        orgName: '',
-        companyId: 0
+    newSubject: { companyId?: number, name: string, startTime?: Date, endTime?: Date } = {
+        name: "",
     }
+
     selectedCompany
     isLoading = true;
-    selectedOrg;
+    selectedSubject;
     keyword
     searchChange$ = new BehaviorSubject('');
     companyDataSource = new DataSouce({
@@ -38,19 +37,19 @@ export class OrgComponent {
             insertUrl: "/api/admin/Rbac/company/insert",
         })
     });
-    orgDataSource = new DataSouce({
+    subjectDataSource = new DataSouce({
         store: createStore({
             key: "id",
-            loadUrl: "/api/admin/Rbac/org/load",
-            updateUrl: "/api/admin/Rbac/org/update",
-            deleteUrl: "/api/admin/Rbac/org/delete",
-            insertUrl: "/api/admin/Rbac/org/insert",
+            loadUrl: "/api/admin/study/subject/load",
+            updateUrl: "/api/admin/study/subject/update",
+            deleteUrl: "/api/admin/study/subject/delete",
+            insertUrl: "/api/admin/study/subject/insert",
         })
     });
 
 
     constructor(private http: HttpClient) { }
-    orgs: any[] = []
+    subjects: any[] = []
 
     async  onSearch(value) {
         this.isLoading = true;
@@ -73,33 +72,22 @@ export class OrgComponent {
     }
 
     async search() {
-        this.loadOrg();
+        this.loadSubject();
     }
 
-    async createOrg() {
-        var newOrg = Object.assign(this.newOrg)
-        if (this.selectedOrg) {
-            newOrg.parentId = this.selectedOrg.id;
-            newOrg.level = this.selectedOrg.level + 1;
-
-
-        } else {
-            newOrg.parentId = 0;
-            newOrg.level = 0;
-        }
-        newOrg.companyId = this.queryCompany.id;
+    async createSubject() {
+        var newSubject = Object.assign({}, this.newSubject);
+        newSubject.companyId = this.queryCompany.id;
         debugger;
-        await this.orgDataSource.store().insert(newOrg);
+        await this.subjectDataSource.store().insert(newSubject);
         await this.search();
         this.state = View.List;
-
-
     }
-    async deleteOrg(data) {
-        await this.orgDataSource.store().remove(data.orgId);
-        await this.loadOrg();
+    async deleteSubject(data) {
+        await this.subjectDataSource.store().remove(data.id);
+        await this.loadSubject();
     }
-    async  loadOrg() {
+    async  loadSubject() {
         if (!this.queryCompany) {
             return alert("请先选择公司");
         }
@@ -107,15 +95,15 @@ export class OrgComponent {
         if (this.queryCompany) {
             filter.push("companyId", '=', this.queryCompany.id);
         }
-        this.orgs = await this.orgDataSource.store().load({ filter: filter })
+        this.subjects = await this.subjectDataSource.store().load({ filter: filter })
     }
-    async updateOrg() {
-        await this.orgDataSource.store().update(this.selectedOrg.orgId, { orgName: this.selectedOrg.orgName });
+    async updateSubject() {
+        await this.subjectDataSource.store().update(this.selectedSubject.id, this.selectedSubject);
         this.state = View.List;
-        await this.loadOrg()
+        await this.loadSubject()
     }
-    async selectOrg(org) {
-        this.selectedOrg = Object.assign({}, org);
+    async selectSubject(subject) {
+        this.selectedSubject = Object.assign({}, subject);
         this.state = View.Create
     }
-} 
+}

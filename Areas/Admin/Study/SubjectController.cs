@@ -9,50 +9,37 @@ using Newtonsoft.Json;
 using Wings.Base.Common.DTO;
 using Wings.Projects.Web;
 
-namespace Wings.Areas.Admin.Rbac.Controllers
+namespace Wings.Areas.Admin.Study.Controllers
 {
-    [Route("api/admin/Rbac/[controller]/[action]")]
-    public class MenuController : Controller
+    [Route("api/admin/study/[controller]/[action]")]
+    public class SubjectController : Controller
     {
         public DataContext dataContext { get; set; }
-        public MenuController(DataContext _dataContext)
+        public SubjectController(DataContext _dataContext)
         {
             dataContext = _dataContext;
         }
         [HttpPost]
         public object insert(DevExtremInput bodyData)
         {
-
-            var newMenu = new Menu();
-
-            JsonConvert.PopulateObject(bodyData.values, newMenu);
-            if (newMenu.parentId != 0)
-            {
-                var parentMenu = this.dataContext.menus.Find(newMenu.parentId);
-                if (parentMenu != null)
-                {
-                    newMenu.path = parentMenu.path + "," + parentMenu.id + ",";
-                    newMenu.level = parentMenu.level + 1;
-                }
-
-            }
-            this.dataContext.menus.Add(newMenu);
+            var newSubject = new Subject();
+            JsonConvert.PopulateObject(bodyData.values, newSubject);
+            this.dataContext.subjects.Add(newSubject);
             this.dataContext.SaveChanges();
             return true;
-
         }
         [HttpGet]
         public object load(DataSourceLoadOptions options)
         {
-            var query = from r in this.dataContext.menus select r;
+            var query = from r in this.dataContext.subjects select r;
             return DataSourceLoader.Load(query, options);
         }
 
         [HttpPut]
         public object update(DevExtremInput bodyData)
         {
-            var menu = this.dataContext.menus.Find(bodyData.key);
-            JsonConvert.PopulateObject(bodyData.values, menu);
+            var subject = this.dataContext.subjects.Find(bodyData.key);
+            JsonConvert.PopulateObject(bodyData.values, subject);
             this.dataContext.SaveChanges();
             return true;
         }
@@ -67,8 +54,8 @@ namespace Wings.Areas.Admin.Rbac.Controllers
         public bool delete(int key)
         {
 
-            var menu = this.dataContext.menus.Find(key);
-            this.dataContext.menus.Remove(menu);
+            var subject = this.dataContext.subjects.Find(key);
+            this.dataContext.subjects.Remove(subject);
             this.dataContext.SaveChanges();
             return true;
         }

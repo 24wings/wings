@@ -30,12 +30,11 @@
                 <td>{{data.link}}</td>
                 <td>{{data.code}}</td>
                 <td>{{data.level}}</td>
-                <td>{{ data.createTime }}</td>
+                <td>{{ data.createTime|date:"yyyy-MM-dd" }}</td>
                 <td>
-
-                    <i nz-icon nzType="plus" nzTheme="outline" (click)="selectedCompany=data;state=View.Create"></i>
+                    <i nz-icon nzType="plus" nzTheme="outline" (click)="selectMenu(data); state=View.Create"></i>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <i nz-icon nzType="edit" nzTheme="outline"></i>
+                    <a (click)="selectMenu(data)"> <i nz-icon nzType="edit" nzTheme="outline"></i></a>
                     <nz-divider nzType="vertical"></nz-divider>
                     <a nz-popconfirm nzTitle="确认删除?" nzOkText="确定" nzCancelText="取消" (nzOnConfirm)="deleteMenu(data)">
                         <i nz-icon nzType="delete" nzTheme="outline"></i></a>
@@ -46,7 +45,7 @@
 </nz-card>
 
 
-<!--  -->
+<!-- 添加 -->
 <ng-container>
 
     <nz-modal [(nzVisible)]="state==View.Create" nzTitle="添加" (nzOnOk)="createMenu()" (nzOnCancel)="state=View.List">
@@ -65,4 +64,25 @@
             </nz-form-item>
         </div>
     </nz-modal>
+
 </ng-container>
+
+<!-- 更新 -->
+<nz-modal [(nzVisible)]="state==View.Update" nzTitle="更新" (nzOnOk)="updateMenu()" (nzOnCancel)="state=View.List">
+    <ng-container *ngIf="selectedMenu">
+        <div nz-row [nzGutter]="24">
+            <nz-form-item nzFlex [nzSpan]="23" nz-col>
+                <nz-form-label>菜单名称</nz-form-label>
+                <nz-form-control style="    width: 80%;">
+                    <input nz-input placeholder="组织名称" [(ngModel)]="selectedMenu.text" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nzFlex [nzSpan]="23" nz-col>
+                <nz-form-label>菜单地址</nz-form-label>
+                <nz-form-control style="    width: 80%;">
+                    <input nz-input placeholder="组织名称" [(ngModel)]="selectedMenu.link" />
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </ng-container>
+</nz-modal>
